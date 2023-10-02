@@ -16,16 +16,16 @@ class Database():
                 choice1 = input('1 - Добавление пользователя'+ '\n2 - Добавление структуры'+'\n')
                 if choice1 == '1':
                     self.add_user()
-                elif choice1 == 2:
+                elif choice1 == '2':
                     self.add_structur()
             if choice == '2':
                 choice1 = input('1 - Удаление пользователя'+ '\n2 - Удаление структуры'+'\n')
                 if choice1 == '1':
                     self.delete_user(0)
                 elif choice1 == 2:
-                    self.add_structur()
+                    self.delete_structure()
             if choice == '3':
-                choice1 = input('1 - Поиск пользователя'+ '\n2 - Показать краткую информацию о всех пользователях'+ '\n3 - Поиск структуры'+ '\n2 - Показать информацию о всех структурах'+'\n')
+                choice1 = input('1 - Поиск пользователя'+ '\n2 - Показать краткую информацию о всех пользователях'+ '\n3 - Поиск структуры'+ '\n4 - Показать информацию о всех структурах'+'\n')
                 if choice1 == '1':
                     self.find_user()
                 elif choice1 == '2':
@@ -59,7 +59,7 @@ class Database():
 
     def add_user(self):
         cur = self.con.cursor()
-        print('Введите СНИЛС нового сотрудника или 0 для отмены')
+        print('Введите СНИЛС нового сотрудника или 0 для отмены: ')
         snils = input()
         if snils == '0':
             print('Отменено')
@@ -73,19 +73,19 @@ class Database():
                     cur.execute('INSERT INTO Users VALUES (?,?,?,?,?,?)', data)
                     self.con.commit()
                 if choice == '1':
-                    data[0] = input('Введите ФИО')
+                    data[0] = input('Введите ФИО: ')
                 if choice == '2':
-                    data[1] = input('Введите Год рождения')
+                    data[1] = input('Введите Год рождения: ')
                 if choice == '3':
-                    data[2] = input('Введите Должность')
+                    data[2] = input('Введите Должность: ')
                 if choice == '4':
-                    data[3] = input('Введите Долю ставки')
+                    data[3] = input('Введите Долю ставки: ')
                 if choice == '5':
-                    data[4] = input('Введите Датy приема')
+                    data[4] = input('Введите Датy приема: ')
                 
     def add_structur(self):
         cur = self.con.cursor()
-        print('Введите название новой структуры или 0 для отмены')
+        print('Введите название новой структуры или 0 для отмены: ')
         name = input()
         if name == '0':
             print('Отменено')
@@ -99,9 +99,9 @@ class Database():
                     cur.execute('INSERT INTO Structurs VALUES (?,?,?)', data)
                     self.con.commit()
                 if choice == '1':
-                    data[1] = input('Введите Описание')
+                    data[1] = input('Введите Описание: ')
                 if choice == '2':
-                    data[2] = input('Введите Штатное расписание')
+                    data[2] = input('Введите Штатное расписание: ')
                     
     def find_all_structure(self):
         cur = self.con.cursor()
@@ -121,7 +121,7 @@ class Database():
 
     def find_structure(self):
         cur = self.con.cursor()
-        print('Введите название струтуры или 0 для отмены')
+        print('Введите название струтуры или 0 для отмены: ')
         name = input()
         if name == '0':
             print('Отменено')
@@ -145,7 +145,7 @@ class Database():
                     self.con.commit()
                     flag = False
         
-    def find_user(self, all):
+    def find_user(self):
         cur = self.con.cursor()
         flag = True
         while flag:
@@ -214,7 +214,7 @@ class Database():
     def change_structure(self, name):
         cur= self.con.cursor()
         if name == '0':
-            print('Введите название новой структуры или 0 для отмены')
+            print('Введите название новой структуры или 0 для отмены: ')
             name = input()
         if name == '0':
             print('Отменено')
@@ -235,14 +235,14 @@ class Database():
                     cur.execute('INSERT INTO Structurs VALUES (?,?,?)', data)
                     self.con.commit()
                 if choice == '1':
-                    data[1] = input('Введите Описание')
+                    data[1] = input('Введите Описание: ')
                 if choice == '2':
-                    data[2] = input('Введите Штатное расписание')
+                    data[2] = input('Введите Штатное расписание: ')
                     
     def change_user(self, snils):
         cur = self.con.cursor()
         if snils == '0':
-            print('Введите СНИЛС нового сотрудника или 0 для отмены')
+            print('Введите СНИЛС нового сотрудника или 0 для отмены: ')
             snils = input()
         if snils == '0':
             print('Отменено')
@@ -263,15 +263,15 @@ class Database():
                     cur.execute('INSERT INTO Users VALUES (?,?,?,?,?,?)', data)
                     self.con.commit()
                 if choice == '1':
-                    data[0] = input('Введите ФИО')
+                    data[0] = input('Введите ФИО: ')
                 if choice == '2':
-                    data[1] = input('Введите Год рождения')
+                    data[1] = input('Введите Год рождения: ')
                 if choice == '3':
-                    data[2] = input('Введите Должность')
+                    data[2] = input('Введите Должность: ')
                 if choice == '4':
-                    data[3] = input('Введите Долю ставки')
+                    data[3] = input('Введите Долю ставки: ')
                 if choice == '5':
-                    data[4] = input('Введите Датe приема')
+                    data[4] = input('Введите Датe приема: ')
                     
 if __name__ == '__main__':
     db = Database()
