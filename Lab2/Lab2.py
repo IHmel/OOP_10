@@ -25,13 +25,16 @@ class Database():
                 elif choice1 == 2:
                     self.add_structur()
             if choice == '3':
-                choice1 = input('1 - Поиск пользователя'+ '\n2 - Показать краткую информацию о всех пользователях'+ '\n3 - Поиск структуры'+'\n')
+                choice1 = input('1 - Поиск пользователя'+ '\n2 - Показать краткую информацию о всех пользователях'+ '\n3 - Поиск структуры'+ '\n2 - Показать информацию о всех структурах'+'\n')
                 if choice1 == '1':
                     self.find_user()
                 elif choice1 == '2':
                     self.find_all_users()
-            
-    
+                elif choice1 == '3':
+                    self.find_structure()
+                elif choice1 == '4':
+                    self.find_all_structure()
+
     def __init__(self):
         self.con = sqlite3.connect("mydb.db")
         cur = self.con.cursor()
@@ -100,6 +103,14 @@ class Database():
                 if choice == '2':
                     data[2] = input('Введите Штатное расписание')
                     
+    def find_all_structure(self):
+        cur = self.con.cursor()
+        print('info')
+        cur.execute('SELECT Название, Описание, Штатное расписание FROM Structurs')
+        results = cur.fetchall()
+        for row in results:
+            print(row)
+    
     def find_all_users(self):
         cur = self.con.cursor()
         print('info')
@@ -108,6 +119,32 @@ class Database():
         for row in results:
             print(row)
 
+    def find_structure(self):
+        cur = self.con.cursor()
+        print('Введите название струтуры или 0 для отмены')
+        name = input()
+        if name == '0':
+            print('Отменено')
+        else:
+            cur.execute('SELECT * FROM Structurs WHERE Название = ?', (name,))
+            results = cur.fetchall()
+            row =results[0]
+            print(row)
+            flag = True
+            while flag:
+                choice = input('Выберете дальнейшие дествия'+ '\n1 - Удаление данных струтуры'+'\n2 - Изменения данных струтуры'+'\n0 - Для выхода'+'\n')
+                if choice == '0':
+                    flag = False
+                    self.con.commit()
+                if choice == '1':
+                    self.delete_user(name)
+                    self.con.commit()
+                    flag = False
+                if choice == '2':
+                    self.change_user(name)
+                    self.con.commit()
+                    flag = False
+        
     def find_user(self, all):
         cur = self.con.cursor()
         flag = True
@@ -163,6 +200,45 @@ class Database():
             cur.execute('DELETE FROM Users WHERE СНИЛС =?', (snils,))
             self.con.commit()
         
+    def delete_structure(self, name):
+        cur = self.con.cursor()
+        if name == '0':
+            print('Введите название новой структуры или 0 для отмены')
+            name = input()
+        if name == '0':
+            print('Отменено')
+        else:
+            cur.execute('DELETE FROM Structurs WHERE Название =?', (name,))
+            self.con.commit()
+        
+    def change_structure(self, name):
+        cur= self.con.cursor()
+        if name == '0':
+            print('Введите название новой структуры или 0 для отмены')
+            name = input()
+        if name == '0':
+            print('Отменено')
+        else:
+            cur.execute('SELECT * FROM Structurs WHERE Название =?', (name,))
+            rows = cur.fetchall()
+            results = rows[0]
+            #print(rows)
+            data = [results[0], results[1], results[2]]
+            self.delete_structure(name)
+            #print(data)
+            flag = True
+            while flag:
+                print(data)
+                choice = input('Выберете данные для изменения'+ '\n1 - Описание'+ '\n2 - Штатное расписание'+'\n0 - Для сохранения'+'\n')
+                if choice == '0':
+                    flag = False
+                    cur.execute('INSERT INTO Structurs VALUES (?,?,?)', data)
+                    self.con.commit()
+                if choice == '1':
+                    data[1] = input('Введите Описание')
+                if choice == '2':
+                    data[2] = input('Введите Штатное расписание')
+                    
     def change_user(self, snils):
         cur = self.con.cursor()
         if snils == '0':
