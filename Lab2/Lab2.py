@@ -5,6 +5,19 @@ class Database():
 
     con = sqlite3.connect("mydb.db")
     
+    def console(self):
+        flag = True
+        while flag:
+            choice = input('Выберете действие'+ '\n1 - Добавление'+ '\n2 - Удаление'+ '\n3 - Поиск'+'\n0 - Выход'+'\n')
+            if choice == '0':
+                flag = False
+                
+            if choice == '1':
+            if choice == '2':
+            if choice == '3':
+                
+            
+    
     def __init__(self):
         self.con = sqlite3.connect("metanit.db")
         cur = self.con.cursor()
