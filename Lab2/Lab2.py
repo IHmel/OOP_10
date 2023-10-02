@@ -13,9 +13,23 @@ class Database():
                 flag = False
                 
             if choice == '1':
+                choice1 = input('1 - Удаление пользователя'+ '\n2 - Удаление структуры'+'\n')
+                if choice1 == '1':
+                    self.add_user()
+                elif choice1 == 2:
+                    self.add_structur()
             if choice == '2':
+                choice1 = input('1 - Добавление пользователя'+ '\n2 - Добавление структуры'+'\n')
+                if choice1 == '1':
+                    self.delete_user(0)
+                elif choice1 == 2:
+                    self.add_structur()
             if choice == '3':
-                
+                choice1 = input('1 - Поиск пользователя'+ '\n2 - Поиск структуры'+'\n')
+                if choice1 == '1':
+                    self.find_user()
+                elif choice1 == 2:
+                    self.add_structur()
             
     
     def __init__(self):
@@ -130,7 +144,9 @@ class Database():
         if snils == '0':
             print('Отменено')
         else:
-            data = ['NULL', 'NULL', 'NULL', 'NULL', 'NULL', snils]
+            cur.execute('SELECT СНИЛС WHERE СНИЛС = ?', (snils))
+            results = cur.fetchall()[0]
+            data = [results[0], results[1], results[2], results[3], results[4], results[5]]
             flag = True
             while flag:
                 choice = input('Выберете данные для изменения'+ '\n1 - ФИО'+ '\n2 - Год рождения'+ '\n3 - Должность'+'\n4 - Доля ставки'+ '\n5 - Дата приема'+'\n0 - Для сохранения'+'\n')
@@ -148,3 +164,7 @@ class Database():
                     data[3] = input('Введите Долю ставки')
                 if choice == '5':
                     data[4] = input('Введите Датe приема')
+                    
+if __name__ == '__main__':
+    db = Database()
+    db.console()
