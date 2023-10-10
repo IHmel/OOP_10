@@ -3,7 +3,7 @@ import sqlite3;
 
 class Database():
 
-    con = sqlite3.connect("mydb.db")
+    con = sqlite3.connect("OOP_10/Lab2/mydb.db")
     
     def console(self):
         flag = True
@@ -36,7 +36,7 @@ class Database():
                     self.find_all_structure()
 
     def __init__(self):
-        self.con = sqlite3.connect("mydb.db")
+        self.con = sqlite3.connect('OOP_10/Lab2/mydb.db')
         cur = self.con.cursor()
         cur.execute('''
                     CREATE TABLE IF NOT EXISTS Users (
@@ -105,7 +105,6 @@ class Database():
                     
     def find_all_structure(self):
         cur = self.con.cursor()
-        print('info')
         cur.execute('SELECT Название, Описание, Штатное расписание FROM Structurs')
         results = cur.fetchall()
         for row in results:
