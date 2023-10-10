@@ -21,9 +21,9 @@ class Database():
             if choice == '2':
                 choice1 = input('1 - Удаление пользователя'+ '\n2 - Удаление структуры'+'\n')
                 if choice1 == '1':
-                    self.delete_user(0)
-                elif choice1 == 2:
-                    self.delete_structure()
+                    self.delete_user('1')
+                elif choice1 == '2':
+                    self.delete_structure('1')
             if choice == '3':
                 choice1 = input('1 - Поиск пользователя'+ '\n2 - Показать краткую информацию о всех пользователях'+ '\n3 - Поиск структуры'+ '\n4 - Показать информацию о всех структурах'+'\n')
                 if choice1 == '1':
@@ -137,11 +137,11 @@ class Database():
                     flag = False
                     self.con.commit()
                 if choice == '1':
-                    self.delete_user(name)
+                    self.delete_structure(name)
                     self.con.commit()
                     flag = False
                 if choice == '2':
-                    self.change_user(name)
+                    self.change_structure(name)
                     self.con.commit()
                     flag = False
         
@@ -191,8 +191,8 @@ class Database():
                         
     def delete_user(self, snils):
         cur = self.con.cursor()
-        if snils == '0':
-            print('Введите СНИЛС нового сотрудника или 0 для отмены')
+        if snils == '1':
+            print('Введите СНИЛС сотрудника или 0 для отмены')
             snils = input()
         if snils == '0':
             print('Отменено')
@@ -202,15 +202,15 @@ class Database():
         
     def delete_structure(self, name):
         cur = self.con.cursor()
-        if name == '0':
-            print('Введите название новой структуры или 0 для отмены')
+        if name == '1':
+            print('Введите название структуры или 0 для отмены')
             name = input()
         if name == '0':
             print('Отменено')
         else:
             cur.execute('DELETE FROM Structurs WHERE Название =?', (name,))
             self.con.commit()
-        
+                
     def change_structure(self, name):
         cur= self.con.cursor()
         if name == '0':
