@@ -5,7 +5,7 @@ from cryptography.fernet import Fernet
 
 #Класс движка
 
-class console:
+class aunt:
     
     user_list = {}
     key = str
@@ -15,7 +15,7 @@ class console:
             lines = file.read().splitlines() # read().splitlines()
         for line in lines: # Проходимся по каждой строчке
             key,value = line.split(' ') 
-            self.user_list.update({key:value})	 # Добавляем в словарь
+            self.user_list.update({key:value})	 # До       бавляем в словарь
 
     def cons(self):
         self.read_file()
@@ -105,6 +105,6 @@ class console:
 
 
 if __name__ == '__main__':
-    Cons = console()
+    Cons = aunt()
     Cons.cons()
 
