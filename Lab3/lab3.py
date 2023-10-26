@@ -3,10 +3,6 @@ import cryptography
 from cryptography.fernet import Fernet
 import sqlite3;
 
-################################################################
-
-#Класс движка
-
 class authenticate:
     def __init__(self):
         con = sqlite3.connect('OOP_10/Lab3/shop.db')
@@ -117,6 +113,46 @@ class authenticate:
             else:
                 print('Неверный пароль')
 
+class shop:
+    def __init__(self):
+        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        cur = con.cursor()
+        cur.execute('''
+                    CREATE TABLE IF NOT EXISTS Good (
+                        name TEXT,
+                        count INTEGER,
+                        cost INTEGER,
+                        )
+                        ''')
+        cur.execute('''
+                    CREATE TABLE IF NOT EXISTS shop_list (
+                        user TEXT,
+                        name TEXT,
+                        count INTEGER,
+                        cost INTEGER,
+                        )
+                        ''')
+        con.commit()
+    
+    def add_product(self):
+        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        cur = con.cursor()
+        print('Введите товар, коллисество и стоимость через пробел: ')
+        data = input().split()
+        choice = input('Добавить товар? (д/н)'+'\n')
+        if choice == 'Н' or choice == 'N' or choice == 'n' or choice == 'н':
+            print('Отменено')
+        else:
+            cur.execute('INSERT INTO Goods VALUES (?,?,?)', str(data[0]), int(data[1]), float(data[2]))
+            self.con.commit()
+
+    def show_product(self): 
+        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        cur = con.cursor()
+        cur.execute('SELECT * FROM Goods')
+        results = cur.fetchall()
+        for row in results:
+            print(row)
 
 if __name__ == '__main__':
     Cons = authenticate()
