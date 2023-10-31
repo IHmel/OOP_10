@@ -1,9 +1,11 @@
 
 import sqlite3;
+import os
+
 
 class Database():
 
-    con = sqlite3.connect("OOP_10/Lab2/mydb.db")
+    con = sqlite3.connect(os.getcwd()+"/Lab2/mydb.db")
     
     def console(self):
         flag = True
@@ -36,7 +38,7 @@ class Database():
                     self.find_all_structure()
 
     def __init__(self):
-        self.con = sqlite3.connect('OOP_10/Lab2/mydb.db')
+        self.con = sqlite3.connect(os.getcwd()+"/Lab2/mydb.db")
         cur = self.con.cursor()
         cur.execute('''
                     CREATE TABLE IF NOT EXISTS Users (

@@ -1,11 +1,13 @@
 import hashlib
 import cryptography
 from cryptography.fernet import Fernet
-import sqlite3;
+import sqlite3
+import os
+
 
 class authenticate:
     def __init__(self):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         cur.execute('''
                     CREATE TABLE IF NOT EXISTS Users (
@@ -28,7 +30,7 @@ class authenticate:
                 flag = False
 
     def add_user(self):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         check_login = True
         while check_login:
@@ -60,7 +62,7 @@ class authenticate:
         con.close()
             
     def session(self):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         print('Введите логин:')
         login = input()
@@ -112,7 +114,7 @@ class authenticate:
             print('Логин не существует!')
 
     def change_pswd(self, login):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         check_pswd = False
         while check_pswd == False:
@@ -144,7 +146,7 @@ class authenticate:
 
 class shop:
     def __init__(self):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         cur.execute('''
                     CREATE TABLE IF NOT EXISTS Goods (
@@ -166,7 +168,7 @@ class shop:
         con.close()
     
     def add_product(self):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         flag = True
         while flag:
@@ -185,7 +187,7 @@ class shop:
         con.close()
 
     def show_product(self): 
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         cur.execute('SELECT * FROM Goods')
         results = cur.fetchall()
@@ -193,7 +195,7 @@ class shop:
             print(*row)
     
     def show_shop_list(self, login): 
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         if login == 'admin':
             cur.execute('SELECT * FROM shop_list ORDER BY user')
@@ -205,7 +207,7 @@ class shop:
         con.close()
     
     def add_to_shop_list(self, login):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         flag = True
         while flag:
@@ -244,7 +246,7 @@ class shop:
         con.close()
 
     def pay(self,login):
-        con = sqlite3.connect('OOP_10/Lab3/shop.db')
+        con = sqlite3.connect(os.getcwd()+'/Lab3/shop.db')
         cur = con.cursor()
         self.show_shop_list(login)
         choice1 = input('Хотите оплатить товар? (д/н)')

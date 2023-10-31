@@ -1,6 +1,8 @@
 import hashlib
 import cryptography
 from cryptography.fernet import Fernet
+import os
+
 ################################################################
 
 #Класс движка
@@ -11,7 +13,7 @@ class console:
     key = str
     
     def read_file(self):
-        with open('OOP_10/Lab1/users.txt', 'r') as file: #Читаем файл
+        with open(os.getcwd()+'/Lab1/users.txt', 'r') as file: #Читаем файл
             lines = file.read().splitlines() # read().splitlines()
         for line in lines: # Проходимся по каждой строчке
             key,value = line.split(' ') 
@@ -32,7 +34,7 @@ class console:
                 print(self.user_list)
 
     def write_file(self):
-        with open('OOP_10/Lab1/users.txt','w') as out:
+        with open(os.getcwd()+'/Lab1/users.txt','w') as out:
             for key,val in self.user_list.items():
                 out.write('{} {}\n'.format(key,val))
     
