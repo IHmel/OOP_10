@@ -9,7 +9,7 @@ class check_time():
     
     def __init__(self):
         self.container_type1 = list()
-        self.name1 = 'ListContainer'
+        self.name1 = 'ListContainer' 
         self.container_type2 = array.array('Q')
         self.name2 = 'ArrayContainer'
         self.container1_time_add = []
