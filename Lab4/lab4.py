@@ -2,22 +2,22 @@ from abc import ABC, abstractmethod
 import hashlib
 
 
-class Hash(ABC):
+class Hash(ABC): #абстрактный класс
     @abstractmethod
     def get_hash(self, data):
         pass
 
-class MD5Hash(Hash):
+class MD5Hash(Hash):#класс для md5
     def get_hash(self, data):
         result = hashlib.md5(data.encode()).hexdigest()
         return result
 
-class SHA1Hash(Hash):
+class SHA1Hash(Hash):#класс для sha1
     def get_hash(self, data):
         result = hashlib.sha1(data.encode()).hexdigest()
         return result
 
-class HashStrategy:
+class HashStrategy:#стратегии
     def get_hash(self, data, hash_object):
         return hash_object.get_hash(data)
     
