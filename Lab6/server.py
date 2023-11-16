@@ -47,12 +47,14 @@ class authenticate(server):
         flag = True
         while flag == True:
             self.data_send(self.connection,str('Выберете опцию из списка'+ '\n1 - Регистрация'+ '\n2 - Вход пользователя'+ '\n0 - Выход из программы'+ '\n'))
+            self.data_send(self.connection,str('send'))
             choice = self.data_recv(self.connection)
             if choice == '1':
                 self.add_user()
             elif choice == '2':
                 self.session()
             elif choice == '0':
+                self.data_send(self.connection,str('close'))
                 flag = False
 
     def add_user(self):
@@ -61,6 +63,7 @@ class authenticate(server):
         check_login = True
         while check_login:
             self.data_send(self.connection,str('Введите Логин:'))
+            self.data_send(self.connection,str('send'))
             login = self.data_recv(self.connection)
             cur.execute('SELECT pswd_hash FROM Users WHERE login =? ', (login,))
             users = cur.fetchall()
@@ -71,8 +74,10 @@ class authenticate(server):
         check = False
         while check == False:
             self.data_send(self.connection,str('Введите пароль:'))
+            self.data_send(self.connection,str('send'))
             pswrd = self.data_recv(self.connection)
             self.data_send(self.connection,str('Введите пароль еще раз:'))
+            self.data_send(self.connection,str('send'))
             pswrd1 = self.data_recv(self.connection)
             if pswrd == pswrd1:
                 check = True
@@ -90,9 +95,11 @@ class authenticate(server):
         con = sqlite3.connect(os.getcwd()+'/OOP_10/Lab3/shop.db')
         cur = con.cursor()
         self.data_send(self.connection,str('Введите логин:'))
+        self.data_send(self.connection,str('send'))
         login = self.data_recv(self.connection)
         try:
             self.data_send(self.connection,str('Введите пароль:'))
+            self.data_send(self.connection,str('send'))
             pswrd = self.data_recv(self.connection)
             hash_pswrd = hashlib.sha256(bytes(pswrd, 'utf-8')).hexdigest()
             cur.execute('SELECT pswd_hash FROM Users WHERE login =? ', (login,))
@@ -115,6 +122,7 @@ class authenticate(server):
                                         '\n4 - Корзина'+
                                         '\n5 - Добавить в корзину'+
                                         '\n6 - Оплатить товар\n'))
+                        self.data_send(self.connection,str('send'))
                         choice = self.data_recv(self.connection)
                         if choice == '1':
                             self.change_pswd(login)
@@ -145,6 +153,7 @@ class authenticate(server):
         check_pswd = False
         while check_pswd == False:
             self.data_send(self.connection,str('Введите старый пароль:'))
+            self.data_send(self.connection,str('send'))
             old_pswrd = self.data_recv(self.connection)
             hash_old_pswrd = hashlib.sha256(bytes(old_pswrd, 'utf-8')).hexdigest()
             cur.execute('SELECT pswd_hash FROM Users WHERE login =? ', (login,))
@@ -155,8 +164,10 @@ class authenticate(server):
                 check = False
                 while check == False:
                     self.data_send(self.connection,str('Введите пароль:'))
+                    self.data_send(self.connection,str('send'))
                     pswrd = self.data_recv(self.connection)
                     self.data_send(self.connection,str('Введите пароль еще раз:'))
+                    self.data_send(self.connection,str('send'))
                     pswrd1 = self.data_recv(self.connection)
                     if pswrd == pswrd1:
                         check = True
@@ -200,9 +211,11 @@ class shop(server):
         flag = True
         while flag:
             self.data_send(self.connection,str('Введите товар, коллисество и стоимость через пробел: '))
+            self.data_send(self.connection,str('send'))
             data = self.data_recv(self.connection).split()
             self.data_send(self.connection,str(data))
             self.data_send(self.connection,str('Добавить товар? (д/н)'+'\n'))
+            self.data_send(self.connection,str('send'))
             choice = self.data_recv(self.connection)
             if choice == 'Н' or choice == 'N' or choice == 'n' or choice == 'н':
                 self.data_send(self.connection,str('Отменено'))
@@ -210,6 +223,7 @@ class shop(server):
                 cur.execute('INSERT INTO Goods VALUES (?,?,?)', [str(data[0]), int(data[1]), float(data[2])])
                 con.commit()
             self.data_send(self.connection,str('Хотите добавить еще товар? (д/н)'))
+            self.data_send(self.connection,str('send'))
             choice1 = self.data_recv(self.connection)
             if choice1 == 'Н' or choice1 == 'N' or choice1 == 'n' or choice1 == 'н':
                 flag = False
@@ -250,6 +264,7 @@ class shop(server):
         while flag:
             self.show_product()
             self.data_send(self.connection,str('Введите товар, коллисество для заказа: '))
+            self.data_send(self.connection,str('send'))
             data = self.data_recv(self.connection).split()
             name_zakaz = str(data[0]) #name
             kolvo_zakaz = int(data[1]) #kolvo v zakaz
@@ -277,6 +292,7 @@ class shop(server):
             else:
                 self.data_send(self.connection,str('Товара недостаточно на складе'))
             self.data_send(self.connection,str('Хотите добавить в корзину еще товар? (д/н)'))
+            self.data_send(self.connection,str('send'))
             choice1 = self.data_recv(self.connection)
             if choice1 == 'Н' or choice1 == 'N' or choice1 == 'n' or choice1 == 'н':
                 flag = False
@@ -287,6 +303,7 @@ class shop(server):
         cur = con.cursor()
         self.show_shop_list(login)
         self.data_send(self.connection,str('Хотите оплатить товар? (д/н)'))
+        self.data_send(self.connection,str('send'))
         choice1 = self.data_recv(self.connection)
         if choice1 == 'Y' or choice1 == 'y' or choice1 == 'Д' or choice1 == 'д':
             cur.execute('UPDATE shop_list SET oplata =?  where user =?', ['Оплачен',login])
