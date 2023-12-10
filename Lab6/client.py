@@ -6,18 +6,17 @@ class client():
         hostname = socket.gethostname()     # получаем хост локальной машины
         port = 12345                        # устанавливаем порт сервера
         self.client.connect((hostname, port))
-        self.run_client()
+        self.start()
     
-    def run_client(self):
-        flag = True
-        while flag:
-            data = self.client.recv(1024**2)
-            if data.decode()=='send': 
-                self.client.send(input().encode())
-            elif data.decode()=='close':
-                self.client.close()    
-            elif data.decode()!=None:
-                print("Server sent:\n", data.decode()) 
+    def start(self):
+        while True:
+            data = self.client.recv(1024)  
+            #print('data=', data)
+            print("Server sent: \n", data.decode())
+            if data == b'Closing connection':
+                break 
+            self.client.send(input().encode())          
+        self.client.close()
 
-if __name__ == '__main__':
-    Client=client()
+if __name__ == "__main__":
+    Client = client()
